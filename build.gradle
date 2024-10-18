@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group 'com.nathcat'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs("libs")
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation ':javax.mail'
+    implementation ':smtp-1.6.2'
+    implementation ':json-simple-1.1.1'
+    // https://mvnrepository.com/artifact/javax.activation/activation
+    implementation 'javax.activation:activation:1.1.1'
+}
+
+test {
+    useJUnitPlatform()
+}
