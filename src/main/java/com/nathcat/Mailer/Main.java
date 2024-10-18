@@ -97,6 +97,9 @@ public class Main {
             }
 
             tr.close();
+            stmt.execute("DELETE FROM MailToSend");
+            stmt.close();
+            conn.close();
         }
         catch (MessagingException mex) {
             mex.printStackTrace();
