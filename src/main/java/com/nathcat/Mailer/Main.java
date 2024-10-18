@@ -46,7 +46,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-
         JSONObject config = readConfigFile();
         String sender = (String) config.get("mail-sender");
         String password = (String) config.get("mail-password");
@@ -69,7 +68,7 @@ public class Main {
             // Get all emails to be sent
             Connection conn = DriverManager.getConnection((String) config.get("db-url"), (String) config.get("db-username"), (String) config.get("db-password"));
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            stmt.execute("SELECT MailToSend.*, SSO.Users.email FROM MailToSend LEFT JOIN SSO.Users on MailToSend.recipient = SSO.Users.id");
+            stmt.execute("SELECT MailToSend.*, SSO.Users.email, SSO.Users.fullName, SSO.Users.username FROM MailToSend LEFT JOIN SSO.Users on MailToSend.recipient = SSO.Users.id");
             ResultSet rs = stmt.getResultSet();
 
             Transport tr = session.getTransport("smtp");
