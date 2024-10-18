@@ -18,7 +18,7 @@ import java.sql.*;
 import java.util.Properties;
 
 public class Main {
-    private static JSONObject readConfigFile() {
+    private static JSONObject readConfigFile(String path) {
         JSONObject config;
 
         try (FileInputStream fis = new FileInputStream("Mailer.conf.json")) {
@@ -46,7 +46,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        JSONObject config = readConfigFile();
+        JSONObject config = readConfigFile("/home/ubuntu/Mailer-nathcat.net/Mailer.conf.json");
         String sender = (String) config.get("mail-sender");
         String password = (String) config.get("mail-password");
         String host = (String) config.get("smtp-host");
