@@ -93,6 +93,7 @@ public class Main {
                 // Send email.
                 message.saveChanges();
                 tr.sendMessage(message, message.getAllRecipients());
+                System.out.println("Sent email id: " + rs.getInt("id"));
             }
 
             tr.close();
