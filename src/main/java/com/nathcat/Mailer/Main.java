@@ -21,7 +21,7 @@ public class Main {
     private static JSONObject readConfigFile(String path) {
         JSONObject config;
 
-        try (FileInputStream fis = new FileInputStream("Mailer.conf.json")) {
+        try (FileInputStream fis = new FileInputStream(path)) {
             config = (JSONObject) new JSONParser().parse(new String(fis.readAllBytes()));
 
         } catch (IOException | ParseException e) {
@@ -88,7 +88,7 @@ public class Main {
                 message.setSubject(formatString(rs.getString("subject"), rs));
 
                 // set body of the email.
-                message.setText(formatString(rs.getString("content"), rs));
+                message.setContent(formatString(rs.getString("content"), rs), "text/html");
 
                 // Send email.
                 message.saveChanges();
