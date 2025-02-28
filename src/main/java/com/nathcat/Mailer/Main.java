@@ -68,13 +68,14 @@ public class Main {
             // Get all emails to be sent
             Connection conn = DriverManager.getConnection((String) config.get("db-url"), (String) config.get("db-username"), (String) config.get("db-password"));
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            stmt.execute("SELECT MailToSend.*, SSO.Users.email, SSO.Users.fullName, SSO.Users.username FROM MailToSend LEFT JOIN SSO.Users on MailToSend.recipient = SSO.Users.id");
+            stmt.execute("SELECT MailToSend.*, SSO.Users.email AS 'email', SSO.Users.fullName AS 'fullName', SSO.Users.username AS 'username' FROM MailToSend LEFT JOIN SSO.Users on MailToSend.recipient = SSO.Users.id");
             ResultSet rs = stmt.getResultSet();
 
             Transport tr = session.getTransport("smtp");
             tr.connect(host, sender, password);
 
             while (rs.next()) {
+                System.out.println(rs.getString("email"));
                 // MimeMessage object.
                 MimeMessage message = new MimeMessage(session);
 
@@ -92,8 +93,13 @@ public class Main {
 
                 // Send email.
                 message.saveChanges();
-                tr.sendMessage(message, message.getAllRecipients());
-                System.out.println("Sent email id: " + rs.getInt("id"));
+                try {
+                    tr.sendMessage(message, message.getAllRecipients());
+                    System.out.println("Sent email id: " + rs.getInt("id"));
+                } catch (MessagingException mex) {
+                    System.err.println("Failed to send email id: " + rs.getInt("id"));
+                    mex.printStackTrace();
+                }
             }
 
             tr.close();
