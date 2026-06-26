@@ -46,7 +46,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        JSONObject config = readConfigFile("/home/ubuntu/Mailer-nathcat.net/Mailer.conf.json");
+        JSONObject config = readConfigFile("/home/nathcat/Mailer-nathcat.net/Mailer.conf.json");
         String sender = (String) config.get("mail-sender");
         String password = (String) config.get("mail-password");
         String host = (String) config.get("smtp-host");
